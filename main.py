@@ -1,12 +1,13 @@
 import customtkinter
-# import customtkinter as ctk
 from connect_serial import *
 
 
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
-        self._set_appearance_mode("Dark")
+        # self._set_appearance_mode("Dark")
+        customtkinter.set_appearance_mode("Dark")
+        customtkinter.set_default_color_theme("dark-blue")
         self.title("Plot_C Control GUI")
         self.geometry(f"{300}x{500}")
         self.text_connect = "Disconnected"
@@ -33,8 +34,6 @@ class App(customtkinter.CTk):
         print("Sending!")
 
 
-# ctk.set_default_color_theme("dark-blue")
-#
 if __name__ == "__main__":
     app = App()
     app.mainloop()
