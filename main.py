@@ -1,46 +1,40 @@
-import customtkinter as ctk
+import customtkinter
+# import customtkinter as ctk
 from connect_serial import *
 
-ctk.set_appearance_mode("Dark")
-ctk.set_default_color_theme("dark-blue")
 
-root = ctk.CTk()
-root.geometry("200x500")
+class App(customtkinter.CTk):
+    def __init__(self):
+        super().__init__()
+        self._set_appearance_mode("Dark")
+        self.title("Plot_C Control GUI")
+        self.geometry(f"{300}x{500}")
+        self.text_connect = "Disconnected"
+        self.set_a1 = customtkinter.CTkEntry(master=self, placeholder_text="Set a1 angle")
+        self.set_a1.pack(pady=20, padx=4)
+        self.set_a2 = customtkinter.CTkEntry(master=self, placeholder_text="Set a2 angle")
+        self.set_a2.pack(pady=8, padx=4)
+        self.btn_connect = customtkinter.CTkButton(master=self, text="Set angle", command=self.send)
+        self.btn_connect.pack(pady=20)
+        self.user_label = customtkinter.CTkLabel(master=self, text=self.text_connect, text_color="Red", pady=50)
+        self.user_label.pack()
+        self.btn_connect = customtkinter.CTkButton(master=self, text="Connect", command=self.connect_plot)
+        self.btn_connect.pack(pady=50, padx=10)
 
-text_connect = "Disconnected"
+    def connect_plot(self):
+        connect = ConnectSerial("COM3", 9600)
+        print('connecting...')
+        try:
+            connect.connect()
+        except:
+            print("Not connected")
+
+    def send(self):
+        print("Sending!")
 
 
-def send():
-    print("Sending!")
-
-
-def connect_plot():
-    user_label.configure(text="Connecting", text_color="yellow")
-    connect = ConnectSerial("COM3", 9600)
-    try:
-        connect.connect()
-        user_label.configure(text="Connected", text_color="Green")
-        print("Connected")
-    except:
-        user_label.configure(text="Disconnected", text_color="Red")
-        print("Not connected")
-
-
-frame = ctk.CTkFrame(master=root)
-frame.pack(pady=10, padx=10, fill="both", expand=True)
-
-set_a1 = ctk.CTkEntry(master=frame, placeholder_text="Set a1 angle")
-set_a1.pack(pady=12, padx=10)
-set_a2 = ctk.CTkEntry(master=frame, placeholder_text="Set a2 angle")
-set_a2.pack(pady=12, padx=10)
-
-btn_connect = ctk.CTkButton(master=frame, text="Set angle", command=send)
-btn_connect.pack(pady=20)
-
-btn_connect = ctk.CTkButton(master=frame, text="Connect", command=connect_plot)
-btn_connect.pack(pady=60)
-
-user_label = ctk.CTkLabel(master=frame, text=text_connect, text_color="Red", pady=50)
-user_label.pack()
-
-root.mainloop()
+# ctk.set_default_color_theme("dark-blue")
+#
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
