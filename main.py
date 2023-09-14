@@ -10,6 +10,11 @@ text_connect = "Disconnected"
 
 
 def send():
+    print("Send!!!")
+
+
+def connect_plot():
+    print("Connecting")
     user_label.configure(text="Connected", text_color="Green")
 
 
@@ -21,8 +26,11 @@ set_a1.pack(pady=12, padx=10)
 set_a2 = ctk.CTkEntry(master=frame, placeholder_text="Set a2 angle")
 set_a2.pack(pady=12, padx=10)
 
-btn_connect = ctk.CTkButton(master=frame, text="Connect", command=send)
-btn_connect.pack(pady=50)
+btn_connect = ctk.CTkButton(master=frame, text="Send", command=send)
+btn_connect.pack(pady=20)
+
+btn_connect = ctk.CTkButton(master=frame, text="Connect", command=connect_plot)
+btn_connect.pack(pady=60)
 
 led1 = ctk.CTkCheckBox(master=frame, corner_radius=5)
 led1.pack()
