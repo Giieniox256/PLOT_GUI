@@ -26,8 +26,8 @@ class App(customtkinter.CTk):
         print('connecting...')
         try:
             connect.connect()
-        except:
-            print("Not connected")
+        except ConnectionError:
+            pass
 
     def send(self):
         print("Sending!")
