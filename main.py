@@ -9,7 +9,7 @@ class App(customtkinter.CTk):
         customtkinter.set_appearance_mode("Dark")
         customtkinter.set_default_color_theme("dark-blue")
         self.title("Plot_C Control GUI")
-        self.geometry(f"{300}x{600}")
+        self.geometry(f"{300}x{800}")
         self.text_connect = "Disconnected"
         self.set_a1 = customtkinter.CTkEntry(master=self, placeholder_text="Set a1 angle")
         self.set_a1.pack(pady=20, padx=4)
@@ -25,6 +25,8 @@ class App(customtkinter.CTk):
         self.btn_connect = customtkinter.CTkButton(master=self, text="Start", command=self.start)
         self.btn_connect.pack(pady=5, padx=10)
         self.btn_connect = customtkinter.CTkButton(master=self, text="Cancel", command=self.cancel)
+        self.btn_connect.pack(pady=5, padx=10)
+        self.btn_connect = customtkinter.CTkButton(master=self, text="Home", command=self.home)
         self.btn_connect.pack(pady=5, padx=10)
 
         self.btn_connect = customtkinter.CTkButton(master=self, text="Connect", command=self.connect_plot)
@@ -60,6 +62,9 @@ class App(customtkinter.CTk):
 
     def cancel(self):
         self.connection.send_command('cancel')
+
+    def home(self):
+        self.connection.send_command('home')
 
     def send(self):
         print("Sending!")
