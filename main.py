@@ -9,7 +9,7 @@ class App(customtkinter.CTk):
         customtkinter.set_appearance_mode("Dark")
         customtkinter.set_default_color_theme("dark-blue")
         self.title("Plot_C Control GUI")
-        self.geometry(f"{300}x{500}")
+        self.geometry(f"{300}x{600}")
         self.text_connect = "Disconnected"
         self.set_a1 = customtkinter.CTkEntry(master=self, placeholder_text="Set a1 angle")
         self.set_a1.pack(pady=20, padx=4)
@@ -19,16 +19,47 @@ class App(customtkinter.CTk):
         self.btn_connect.pack(pady=20)
         self.user_label = customtkinter.CTkLabel(master=self, text=self.text_connect, text_color="Red", pady=50)
         self.user_label.pack()
+
+        self.btn_connect = customtkinter.CTkButton(master=self, text="Tap", command=self.tap)
+        self.btn_connect.pack(pady=5, padx=10)
+        self.btn_connect = customtkinter.CTkButton(master=self, text="Start", command=self.start)
+        self.btn_connect.pack(pady=5, padx=10)
+        self.btn_connect = customtkinter.CTkButton(master=self, text="Cancel", command=self.cancel)
+        self.btn_connect.pack(pady=5, padx=10)
+
         self.btn_connect = customtkinter.CTkButton(master=self, text="Connect", command=self.connect_plot)
-        self.btn_connect.pack(pady=50, padx=10)
+        self.btn_connect.pack(ipady=30, padx=10, pady=30)
+        self.btn_connect = customtkinter.CTkButton(master=self, text="Disconnect", command=self.disconnect_plot)
+        self.btn_connect.pack(pady=5, padx=10)
+
+        self.connection = ConnectSerial("COM12", 9600)
 
     def connect_plot(self):
-        connect = ConnectSerial("COM3", 9600)
+        # connect = ConnectSerial("COM3", 9600)
         print('connecting...')
         try:
-            connect.connect()
+            self.connection.connect()
+            # connect.connect()
+            self.text_connect = "Connencted"
+            self.user_label.configure(text=self.text_connect, text_color="Green")
+            print(self.text_connect)
+
         except ConnectionError:
             pass
+
+    def disconnect_plot(self):
+        self.connection.disconnect()
+        self.text_connect = "Disconnected"
+        self.user_label.configure(text=self.text_connect, text_color="Red")
+
+    def tap(self):
+        self.connection.send_command('tap')
+
+    def start(self):
+        self.connection.send_command('start')
+
+    def cancel(self):
+        self.connection.send_command('cancel')
 
     def send(self):
         print("Sending!")
