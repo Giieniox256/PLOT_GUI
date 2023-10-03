@@ -1,15 +1,17 @@
 import customtkinter
 from connect_serial import *
+import serial.tools.list_ports
 
 
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
         # self._set_appearance_mode("Dark")
+        self.connection = None
         customtkinter.set_appearance_mode("Dark")
         customtkinter.set_default_color_theme("dark-blue")
         self.title("Plot_C Control GUI")
-        self.geometry(f"{300}x{800}")
+        self.geometry(f"{300}x{744}")
         self.text_connect = "Disconnected"
         self.set_a1 = customtkinter.CTkEntry(master=self, placeholder_text="Set a1 angle")
         self.set_a1.pack(pady=20, padx=4)
@@ -31,13 +33,20 @@ class App(customtkinter.CTk):
 
         self.btn_connect = customtkinter.CTkButton(master=self, text="Connect", command=self.connect_plot)
         self.btn_connect.pack(ipady=30, padx=10, pady=30)
+        self.get_port = serial.tools.list_ports.comports()
+        list_port = []
+        for port, desc, hwid in sorted(self.get_port):
+            list_port.append(port)
+        self.combo_box = customtkinter.CTkComboBox(master=self,
+                                                   values=list_port)
+        self.combo_box.pack(pady=5, padx=10)
+
         self.btn_connect = customtkinter.CTkButton(master=self, text="Disconnect", command=self.disconnect_plot)
         self.btn_connect.pack(pady=5, padx=10)
 
-        self.connection = ConnectSerial("COM12", 9600)
-
     def connect_plot(self):
-        # connect = ConnectSerial("COM3", 9600)
+        port_com = self.combo_box.get()
+        self.connection = ConnectSerial(port_com, 9600)
         print('connecting...')
         try:
             self.connection.connect()
