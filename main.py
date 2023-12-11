@@ -190,6 +190,7 @@ class App(customtkinter.CTk):
         # self.btn_connect = customtkinter.CTkButton(master=self, text="Disconnect", command=self.disconnect_plot)
         # self.btn_connect.pack(pady=5, padx=10)
         #
+
         self.Point_X = self.set_x_cor.get()
         self.Point_Y = self.set_y_cor.get()
 
