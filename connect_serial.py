@@ -25,3 +25,9 @@ class ConnectSerial:
         self.serial_p.write(command.encode())
         # self.serial_p.send_break()
         print(command.encode())
+        # print(self.serial_p.read())
+
+    def send_bytes_s(self, data):
+        self.serial_p.write(data.encode())
+        print(data)
+        print("Encoded", data.encode())
